@@ -1,0 +1,961 @@
+Lab - 1
+
+package java_practical;
+
+//Save this file as StudentDemo.java
+class Student {
+private String name;
+private int rollNo;
+private int marks;
+
+public Student(String name, int rollNo, int marks) {
+   this.name = name;
+   this.rollNo = rollNo;
+   this.marks = marks;
+}
+
+public void displayStudentInfo() {
+   System.out.println("Student Name: " + name);
+   System.out.println("Roll Number: " + rollNo);
+   System.out.println("Marks: " + marks);
+}
+
+public boolean hasPassed() {
+   return marks >= 40;
+}
+}
+
+public class StudentDemo {
+	 public static void main(String[] args) {
+	     Student student1 = new Student("Aariz", 101, 85);
+
+	     student1.displayStudentInfo();
+
+	     if(student1.hasPassed()) {
+	         System.out.println("Status: Passed");
+	     } else {
+	         System.out.println("Status: Failed");
+	     }
+	 }
+}
+
+
+Lab - 2
+
+//File name: EmployeeDemo.java
+package java_practical;
+import java.util.Scanner;
+
+class Employee {
+ // Data members
+ private int empId;
+ private String name;
+ private String qualification;
+ private String address;
+ private String contactNo;
+ private double basicSalary, da, ta, netSalary;
+
+ static int employeeCount = 0; // Static member
+
+ // Default Constructor
+ Employee() {
+     empId = 0;
+     name = "Not Given";
+     qualification = "Not Given";
+     address = "Not Given";
+     contactNo = "Not Given";
+     basicSalary = da = ta = netSalary = 0.0;
+     employeeCount++;
+ }
+
+ // Parameterized Constructor
+ Employee(int empId, String name, String qualification, String address, String contactNo, double basicSalary) {
+     this.empId = empId;
+     this.name = name;
+     this.qualification = qualification;
+     this.address = address;
+     this.contactNo = contactNo;
+     this.basicSalary = basicSalary;
+     calculateSalary();
+     employeeCount++;
+ }
+
+ // Copy Constructor
+ Employee(Employee e) {
+     this.empId = e.empId;
+     this.name = e.name;
+     this.qualification = e.qualification;
+     this.address = e.address;
+     this.contactNo = e.contactNo;
+     this.basicSalary = e.basicSalary;
+     this.da = e.da;
+     this.ta = e.ta;
+     this.netSalary = e.netSalary;
+     employeeCount++;
+ }
+
+
+ // Destructor Simulation
+ 
+ @Override
+ protected void finalize() throws Throwable {
+     System.out.println("Employee object with ID " + empId + " is destroyed");
+ }
+
+ // Member functions
+ void acceptEmployeeDetails() {
+     Scanner sc = new Scanner(System.in);
+     System.out.print("Enter Employee ID: ");
+     empId = sc.nextInt();
+     sc.nextLine(); // consume newline
+     System.out.print("Enter Name: ");
+     name = sc.nextLine();
+     System.out.print("Enter Qualification: ");
+     qualification = sc.nextLine();
+     System.out.print("Enter Address: ");
+     address = sc.nextLine();
+     System.out.print("Enter Contact Number: ");
+     contactNo = sc.nextLine();
+     System.out.print("Enter Basic Salary: ");
+     basicSalary = sc.nextDouble();
+     calculateSalary();
+ }
+
+ void calculateSalary() {
+     da = 0.10 * basicSalary; // 10% DA
+     ta = 0.05 * basicSalary; // 5% TA
+     netSalary = basicSalary + da + ta;
+ }
+
+ void displayEmployeeDetails() {
+     System.out.println("\n--- Employee Details ---");
+     System.out.println("ID: " + empId);
+     System.out.println("Name: " + name);
+     System.out.println("Qualification: " + qualification);
+     System.out.println("Address: " + address);
+     System.out.println("Contact No: " + contactNo);
+     System.out.println("Basic Salary: " + basicSalary);
+     System.out.println("DA: " + da);
+     System.out.println("TA: " + ta);
+     System.out.println("Net Salary: " + netSalary);
+ }
+
+ static void displayEmployeeCount() {
+     System.out.println("\nTotal number of Employees: " + employeeCount);
+ }
+}
+
+public class lab2 {
+	 public static void main(String[] args) {
+	     Scanner sc = new Scanner(System.in);
+
+	     System.out.print("Enter number of employees: ");
+	     int n = sc.nextInt();
+
+	     Employee[] empArray = new Employee[n]; // Array of objects
+
+	     // Using default constructor
+	     for (int i = 0; i < n; i++) {
+	         System.out.println("\nEnter details for Employee " + (i + 1));
+	         empArray[i] = new Employee(); // dynamic memory allocation
+	         empArray[i].acceptEmployeeDetails();
+	     }
+
+	     // Display all employees
+	     for (int i = 0; i < n; i++) {
+	         empArray[i].displayEmployeeDetails();
+	     }
+
+	     // Using parameterized constructor
+	     System.out.println("\nUsing Parameterized Constructor:");
+	     Employee e1 = new Employee(101, "John Doe", "MBA", "New York", "1234567890", 50000);
+	     e1.displayEmployeeDetails();
+
+	     // Using copy constructor
+	     System.out.println("\nUsing Copy Constructor:");
+	     Employee e2 = new Employee(e1);
+	     e2.displayEmployeeDetails();
+
+	     // Static function call
+	     Employee.displayEmployeeCount();
+	 }
+}
+
+Lab - 3
+
+PS 1 
+
+// File: EmployeeDemo.java
+package java_practical;
+
+class Employee {
+    String name;
+    double salary;
+
+    Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    void displaySalary() {
+        System.out.println(name + "'s Original Salary: " + salary);
+    }
+}
+
+class FullTimeEmployee extends Employee {
+    FullTimeEmployee(String name, double salary) {
+        super(name, salary);
+    }
+
+    void calculateSalary() {
+        salary = salary + (0.5 * salary); // 50% hike
+        System.out.println(name + "'s Salary after 50% hike (Full-Time): " + salary);
+    }
+}
+
+class InternEmployee extends Employee {
+    InternEmployee(String name, double salary) {
+        super(name, salary);
+    }
+
+    void calculateSalary() {
+        salary = salary + (0.25 * salary); // 25% hike
+        System.out.println(name + "'s Salary after 25% hike (Intern): " + salary);
+    }
+}
+
+public class lab3one {
+    public static void main(String[] args) {
+        FullTimeEmployee fte = new FullTimeEmployee("John", 50000);
+        InternEmployee intern = new InternEmployee("Alex", 20000);
+
+        fte.displaySalary();
+        fte.calculateSalary();
+
+        intern.displaySalary();
+        intern.calculateSalary();
+    }
+}
+
+
+PS 2
+
+// File: TwoWheelerDemo.java
+package java_practical;
+
+interface Motorbike {
+    int speed = 80; // km/h (constant by default)
+    void totalDistance();
+}
+
+interface Cycle {
+    int distance = 120; // km (constant by default)
+    void speed();
+}
+
+class TwoWheeler implements Motorbike, Cycle {
+    @Override
+    public void totalDistance() {
+        System.out.println("Total Distance Travelled: " + distance + " km");
+    }
+
+    @Override
+    public void speed() {
+        double averageSpeed = (double) distance / (double) speed;
+        System.out.println("Average Time Taken: " + averageSpeed + " hours");
+    }
+}
+
+public class TwoWheelerDemo {
+    public static void main(String[] args) {
+        TwoWheeler bike = new TwoWheeler();
+        bike.totalDistance();
+        bike.speed();
+    }
+}
+
+
+Lab 4
+
+PS 1
+
+// File: ShapesDemo.java
+package java_practical;
+
+class Shapes {
+    double area;
+
+    // Constructor Overloading
+    Shapes(double radius) {
+        area = Math.PI * radius * radius;
+        System.out.println("Area of Circle: " + area);
+    }
+
+    Shapes(int side) {
+        area = side * side;
+        System.out.println("Area of Square: " + area);
+    }
+
+    Shapes(int length, int breadth) {
+        area = length * breadth;
+        System.out.println("Area of Rectangle: " + area);
+    }
+
+    // Method Overloading
+    void calculateArea(double radius) {
+        area = Math.PI * radius * radius;
+        System.out.println("Circle Area (Method Overload): " + area);
+    }
+
+    void calculateArea(int side) {
+        area = side * side;
+        System.out.println("Square Area (Method Overload): " + area);
+    }
+
+    void calculateArea(int length, int breadth) {
+        area = length * breadth;
+        System.out.println("Rectangle Area (Method Overload): " + area);
+    }
+}
+
+public class ShapesDemo {
+    public static void main(String[] args) {
+        // Constructor Overloading
+        Shapes circle = new Shapes(5.0);
+        Shapes square = new Shapes(4);
+        Shapes rectangle = new Shapes(5, 10);
+
+        // Method Overloading
+        System.out.println("\nUsing Method Overloading:");
+        circle.calculateArea(7.0);
+        square.calculateArea(6);
+        rectangle.calculateArea(8, 12);
+    }
+}
+
+
+PS 2
+
+// File: HillStationsDemo.java
+package java_practical;
+
+class Hillstations {
+    void location() {
+        System.out.println("Generic Hill Station");
+    }
+
+    void famousFor() {
+        System.out.println("Famous for beauty");
+    }
+}
+
+class Manali extends Hillstations {
+    @Override
+    void location() {
+        System.out.println("Manali is located in Himachal Pradesh.");
+    }
+
+    @Override
+    void famousFor() {
+        System.out.println("Manali is famous for snow and adventure sports.");
+    }
+}
+
+class Shimla extends Hillstations {
+    @Override
+    void location() {
+        System.out.println("Shimla is located in Himachal Pradesh.");
+    }
+
+    @Override
+    void famousFor() {
+        System.out.println("Shimla is famous for its Mall Road and colonial architecture.");
+    }
+}
+
+class Ooty extends Hillstations {
+    @Override
+    void location() {
+        System.out.println("Ooty is located in Tamil Nadu.");
+    }
+
+    @Override
+    void famousFor() {
+        System.out.println("Ooty is famous for its tea gardens and pleasant weather.");
+    }
+}
+
+public class HillStationsDemo {
+    public static void main(String[] args) {
+        Hillstations h;
+
+        h = new Manali();
+        h.location();
+        h.famousFor();
+
+        System.out.println();
+
+        h = new Shimla();
+        h.location();
+        h.famousFor();
+
+        System.out.println();
+
+        h = new Ooty();
+        h.location();
+        h.famousFor();
+    }
+}
+
+
+Lab 5
+
+PS 1
+
+// File: MultithreadedCalculator.java
+package java_practical;
+
+class Addition extends Thread {
+    private int a, b;
+
+    Addition(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public void run() {
+        System.out.println("Addition: " + (a + b));
+    }
+}
+
+class Subtraction extends Thread {
+    private int a, b;
+
+    Subtraction(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public void run() {
+        System.out.println("Subtraction: " + (a - b));
+    }
+}
+
+class Multiplication extends Thread {
+    private int a, b;
+
+    Multiplication(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public void run() {
+        System.out.println("Multiplication: " + (a * b));
+    }
+}
+
+class Division extends Thread {
+    private int a, b;
+
+    Division(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public void run() {
+        try {
+            System.out.println("Division: " + (a / b));
+        } catch (ArithmeticException e) {
+            System.out.println("Error: Division by zero is not allowed!");
+        }
+    }
+}
+
+public class MultithreadedCalculator {
+    public static void main(String[] args) {
+        int a = 20, b = 0; // You can change input values
+
+        Addition add = new Addition(a, b);
+        Subtraction sub = new Subtraction(a, b);
+        Multiplication mul = new Multiplication(a, b);
+        Division div = new Division(a, b);
+
+        add.start();
+        sub.start();
+        mul.start();
+        div.start();
+    }
+}
+
+
+PS 2
+
+// File: EvenOddThreads.java
+package java_practical;
+
+class EvenThread implements Runnable {
+    public void run() {
+        for (int i = 0; i <= 10; i += 2) {
+            System.out.println("Even: " + i);
+            try {
+                Thread.sleep(500); // Slow down to see output
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+class OddThread implements Runnable {
+    public void run() {
+        for (int i = 1; i <= 10; i += 2) {
+            System.out.println("Odd: " + i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+public class EvenOddThreads {
+    public static void main(String[] args) {
+        Thread even = new Thread(new EvenThread());
+        Thread odd = new Thread(new OddThread());
+
+        even.start();
+        odd.start();
+    }
+}
+
+
+Lab 6
+
+PS 1
+
+import java.util.Scanner;
+
+public class ExceptionHandlingDemo {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.print("Enter first number: ");
+            String num1 = sc.nextLine();
+            System.out.print("Enter second number: ");
+            String num2 = sc.nextLine();
+
+            // Convert input strings to integers
+            int n1 = Integer.parseInt(num1);
+            int n2 = Integer.parseInt(num2);
+
+            // Perform division
+            int result = n1 / n2;
+            System.out.println("Result of division: " + result);
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Please enter valid integers.");
+        } catch (ArithmeticException e) {
+            System.out.println("Error: Division by zero is not allowed.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+
+
+PS 2
+
+// Custom Exception for Age Validation
+class AgeNotWithinRangeException extends Exception {
+    public AgeNotWithinRangeException(String message) {
+        super(message);
+    }
+}
+
+// Custom Exception for Name Validation
+class NameNotValidException extends Exception {
+    public NameNotValidException(String message) {
+        super(message);
+    }
+}
+
+// Employee Class
+class Employee {
+    private int eid;
+    private String name;
+    private int age;
+    private String department;
+
+    public Employee(int eid, String name, int age, String department) throws AgeNotWithinRangeException, NameNotValidException {
+        if (age < 25 || age > 60) {
+            throw new AgeNotWithinRangeException("Age not within the valid range (25-60).");
+        }
+        if (!name.matches("[a-zA-Z ]+")) {
+            throw new NameNotValidException("Name contains invalid characters.");
+        }
+        this.eid = eid;
+        this.name = name;
+        this.age = age;
+        this.department = department;
+    }
+}
+
+public class EmployeeValidation {
+    public static void main(String[] args) {
+        try {
+            Employee emp = new Employee(101, "John123", 30, "Finance");
+            System.out.println("Employee created successfully.");
+        } catch (AgeNotWithinRangeException | NameNotValidException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+
+PS 3
+
+import java.util.Scanner;
+
+// Custom Exception for Invalid Account Balance
+class InvalidAmountException extends Exception {
+    public InvalidAmountException(String message) {
+        super(message);
+    }
+}
+
+// Custom Exception for Invalid Customer ID
+class InvalidCustomerIdException extends Exception {
+    public InvalidCustomerIdException(String message) {
+        super(message);
+    }
+}
+
+// Custom Exception for Insufficient Balance
+class InsufficientBalanceException extends Exception {
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}
+
+class BankAccount {
+    private int cid;
+    private String cname;
+    private double balance;
+
+    public BankAccount(int cid, String cname, double balance) throws InvalidCustomerIdException, InvalidAmountException {
+        if (cid < 1 || cid > 20) {
+            throw new InvalidCustomerIdException("Customer ID should be in the range 1 to 20.");
+        }
+        if (balance < 1000) {
+            throw new InvalidAmountException("Account must be created with a minimum balance of 1000 Rs.");
+        }
+        this.cid = cid;
+        this.cname = cname;
+        this.balance = balance;
+    }
+
+    public void withdraw(double amount) throws InsufficientBalanceException {
+        if (amount > balance) {
+            throw new InsufficientBalanceException("Insufficient balance for withdrawal.");
+        }
+        balance -= amount;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+public class BankingSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter Customer ID: ");
+            int cid = sc.nextInt();
+            sc.nextLine();  // consume newline
+            System.out.print("Enter Customer Name: ");
+            String cname = sc.nextLine();
+            System.out.print("Enter Initial Deposit: ");
+            double balance = sc.nextDouble();
+
+            BankAccount account = new BankAccount(cid, cname, balance);
+            System.out.println("Account created successfully.");
+
+            // Withdraw amount
+            System.out.print("Enter amount to withdraw: ");
+            double withdrawAmount = sc.nextDouble();
+            account.withdraw(withdrawAmount);
+            System.out.println("Amount withdrawn successfully. Current balance: " + account.getBalance());
+
+        } catch (InvalidCustomerIdException | InvalidAmountException | InsufficientBalanceException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+
+Lab 7
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class CollectionFrameworkDemo {
+    public static void main(String[] args) {
+        // Create a new ArrayList and add some elements
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Orange");
+        list.add("Grapes");
+
+        // Print out the collection by position
+        System.out.println("ArrayList by position:");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(i + ": " + list.get(i));
+        }
+
+        // Search for an element in the ArrayList
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter an element to search in the list: ");
+        String searchElement = sc.nextLine();
+        if (list.contains(searchElement)) {
+            System.out.println(searchElement + " found in the list.");
+        } else {
+            System.out.println(searchElement + " not found in the list.");
+        }
+
+        // Reverse the elements in the ArrayList
+        Collections.reverse(list);
+        System.out.println("Reversed ArrayList: " + list);
+
+        // Check if the ArrayList is empty or not
+        System.out.println("Is the ArrayList empty? " + list.isEmpty());
+
+        // Join two ArrayLists
+        ArrayList<String> list2 = new ArrayList<>();
+        list2.add("Mango");
+        list2.add("Pineapple");
+        list.addAll(list2);
+        System.out.println("After joining two lists: " + list);
+
+        sc.close();
+    }
+}
+
+Lab 8
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Calculator extends JFrame {
+    private JTextField textField; 
+    private String operator = ""; 
+    private double num1, num2, result;
+
+    public Calculator() {
+        // Set the frame title and size
+        setTitle("Simple Calculator");
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Create a container panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        // Create a text field to display calculations
+        textField = new JTextField();
+        panel.add(textField, BorderLayout.NORTH);
+
+        // Create a panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(4, 4));
+
+        // Button definitions
+        String[] buttons = {
+            "7", "8", "9", "/",
+            "4", "5", "6", "*",
+            "1", "2", "3", "-",
+            "0", ".", "=", "+"
+        };
+
+        // Add buttons to the button panel
+        for (String text : buttons) {
+            JButton button = new JButton(text);
+            button.addActionListener(new ButtonClickListener());
+            buttonPanel.add(button);
+        }
+
+        panel.add(buttonPanel, BorderLayout.CENTER);
+        add(panel);
+    }
+
+    // Event handler for button clicks
+    private class ButtonClickListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            
+            if (command.charAt(0) == '=') {
+                // Perform calculation
+                num2 = Double.parseDouble(textField.getText());
+                switch (operator) {
+                    case "+":
+                        result = num1 + num2;
+                        break;
+                    case "-":
+                        result = num1 - num2;
+                        break;
+                    case "*":
+                        result = num1 * num2;
+                        break;
+                    case "/":
+                        result = num1 / num2;
+                        break;
+                    default:
+                        result = num2;
+                }
+                textField.setText(String.valueOf(result));
+                operator = "";
+            } else if (command.charAt(0) == 'C') {
+                // Clear the text field
+                textField.setText("");
+                num1 = num2 = result = 0;
+                operator = "";
+            } else {
+                // Update the text field with button press
+                if (operator.isEmpty()) {
+                    num1 = Double.parseDouble(textField.getText());
+                }
+                operator = command;
+                textField.setText("");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Calculator calculator = new Calculator();
+            calculator.setVisible(true);
+        });
+    }
+}
+
+
+Lab 9
+
+import java.sql.*;
+
+public class EmployeeDBOperations {
+
+    // Database connection credentials
+    static final String URL = "jdbc:mysql://localhost:3306/EmployeeDB";
+    static final String USER = "root";
+    static final String PASSWORD = "your_password";  // replace with your MySQL password
+
+    public static void main(String[] args) {
+        // Create a new employee
+        createEmployee("John Doe", 28, "IT");
+
+        // Read employee details
+        readEmployee();
+
+        // Update employee details
+        updateEmployee(1, "John Smith", 29, "HR");
+
+        // Delete employee record
+        deleteEmployee(1);
+    }
+
+    // Create operation: Insert a new employee record
+    public static void createEmployee(String name, int age, String department) {
+        String query = "INSERT INTO Employee (name, age, department) VALUES (?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, name);
+            pstmt.setInt(2, age);
+            pstmt.setString(3, department);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Employee added successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Read operation: Retrieve and display all employee records
+    public static void readEmployee() {
+        String query = "SELECT * FROM Employee";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+                String department = rs.getString("department");
+                System.out.println("ID: " + id + ", Name: " + name + ", Age: " + age + ", Department: " + department);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Update operation: Modify employee details
+    public static void updateEmployee(int id, String name, int age, String department) {
+        String query = "UPDATE Employee SET name = ?, age = ?, department = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, name);
+            pstmt.setInt(2, age);
+            pstmt.setString(3, department);
+            pstmt.setInt(4, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Employee details updated successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Delete operation: Remove employee record
+    public static void deleteEmployee(int id) {
+        String query = "DELETE FROM Employee WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Employee record deleted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+SQL
+
+CREATE DATABASE EmployeeDB;
+USE EmployeeDB;
+
+CREATE TABLE Employee (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    age INT,
+    department VARCHAR(50)
+);
